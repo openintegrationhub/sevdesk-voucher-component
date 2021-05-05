@@ -1,0 +1,175 @@
+{
+    "title": "sevDesk Receipt API",
+    "description": "\r\n# General information\r\nWelcome to our Receipt API!<br>\r\nYou can use it to manage receipts (vouchers) in your sevDesk account.\r\n\r\n# Cross-Origin Resource Sharing\r\nThis API features Cross-Origin Resource Sharing (CORS).<br>\r\nIt enables cross-domain communication from the browser.<br>\r\nAll responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\r\n\r\n# Embedding resources\r\nWhen retrieving resources by using this API, you might encounter nested resources in the resources you requested.<br>\r\nFor example, an invoice always contains a contact, of which you can see the ID and the object name.<br>\r\nThis API gives you the possibility to embed these resources completely into the resources you originally requested.<br>\r\nTaking our invoice example, this would mean, that you would not only see the ID and object name of a contact, but rather the complete contact resource.\r\n\r\nTo embed resources, all you need to do is to add the query parameter 'embed' to your GET request.<br>\r\nAs values, you can provide the name of the nested resource.<br>\r\nMultiple nested resources are also possible by providing multiple names, separated by a comma.\r\n",
+    "docsUrl": "https://5677.extern.sevdesk.dev/apiOverview/index.html#/",
+    "url": "https://my.sevdesk.de/api/v1",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://my.sevdesk.de/api/v1 - Our main application instance which most of our customers work with",
+                    "https://my.pebesmart.ch/api/v1 - Our swiss application instance, hosted and maintained by smart seven AG",
+                    "http://sevdesk.local/api/v1 - sevDesk internal local instance",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "auth_api_key": {
+                "label": "Authorization (api_key)",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "createVoucherByFactory": {
+            "main": "./lib/actions/createVoucherByFactory.js",
+            "title": "Create a new voucher",
+            "description": "Creates a voucher together with positions and discounts.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/createVoucherByFactory.in.json",
+                "out": "./lib/schemas/createVoucherByFactory.out.json"
+            }
+        },
+        "voucherUploadFile": {
+            "main": "./lib/actions/voucherUploadFile.js",
+            "title": "Upload voucher file",
+            "description": "Upload a file which can be attached to a voucher afterwards.<br>\r\n     The filename you receive in the response of this request, can be used in the request which creates a voucher.<br>\r\n     For a detailed explanation of how to attach a file to a voucher,\r\n     visit <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#document'>this</a> section of our API-Overview.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/voucherUploadFile.in.json",
+                "out": "./lib/schemas/voucherUploadFile.out.json"
+            }
+        },
+        "getVouchers": {
+            "main": "./lib/actions/getVouchers.js",
+            "title": "Retrieve vouchers",
+            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n    for a complete list please check out <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#filtering'>this</a> list",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVouchers.in.json",
+                "out": "./lib/schemas/getVouchers.out.json"
+            }
+        },
+        "createVoucher": {
+            "main": "./lib/actions/createVoucher.js",
+            "title": "Create a new voucher",
+            "description": "You can still create vouchers by using this request, however, this endpoint does not allow the\r\n    simultaneous creation of voucher positions. It only creates the voucher object!<br>\r\n    Please use the 'saveVoucher' endpoint for creating vouchers together with positions, discounts, etc., in one request.<br>\r\n    Support for users integrating with this endpoint may be limited.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/createVoucher.in.json",
+                "out": "./lib/schemas/createVoucher.out.json"
+            }
+        },
+        "getVoucherById": {
+            "main": "./lib/actions/getVoucherById.js",
+            "title": "Find voucher by ID",
+            "description": "Returns a single voucher",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVoucherById.in.json",
+                "out": "./lib/schemas/getVoucherById.out.json"
+            }
+        },
+        "updateVoucher": {
+            "main": "./lib/actions/updateVoucher.js",
+            "title": "Update an existing voucher",
+            "description": "Update a voucher",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/updateVoucher.in.json",
+                "out": "./lib/schemas/updateVoucher.out.json"
+            }
+        },
+        "deprecatedBookVoucher": {
+            "main": "./lib/actions/deprecatedBookVoucher.js",
+            "title": "Book a voucher",
+            "description": "This endpoint can be used to book vouchers.<br>\r\n    Vouchers are booked on payment accounts where (bank) transactions are located and might be linked to the transactions\r\n    by using this endpoint.<br>\r\n    For more detailed information about booking vouchers, please refer to\r\n    <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#booking'>this</a> section of our API-Overview.<br>\r\n    Be aware, that this endpoint is deprecated and the new endpoint 'bookAmount' should be used instead.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/deprecatedBookVoucher.in.json",
+                "out": "./lib/schemas/deprecatedBookVoucher.out.json"
+            }
+        },
+        "bookVoucher": {
+            "main": "./lib/actions/bookVoucher.js",
+            "title": "Book a voucher",
+            "description": "This endpoint can be used to book vouchers.<br>\r\n    Vouchers are booked on payment accounts where (bank) transactions are located and might be linked to the transactions\r\n    by using this endpoint.<br>\r\n    For more detailed information about booking vouchers, please refer to\r\n    <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#booking'>this</a> section of our API-Overview.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/bookVoucher.in.json",
+                "out": "./lib/schemas/bookVoucher.out.json"
+            }
+        },
+        "getVoucherPositions": {
+            "main": "./lib/actions/getVoucherPositions.js",
+            "title": "Retrieve voucher positions",
+            "description": "Retrieve all voucher positions depending on the filters defined in the query.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVoucherPositions.in.json",
+                "out": "./lib/schemas/getVoucherPositions.out.json"
+            }
+        }
+    }
+}

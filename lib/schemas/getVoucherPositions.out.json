@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "voucher_id_": {
+            "required": false,
+            "type": "integer"
+        },
+        "voucher_objectName_": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "file": {
+                    "description": "The file to upload",
+                    "type": "string",
+                    "format": "binary"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

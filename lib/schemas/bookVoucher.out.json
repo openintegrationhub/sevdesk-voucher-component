@@ -1,0 +1,82 @@
+{
+    "type": "object",
+    "properties": {
+        "voucherId": {
+            "required": true,
+            "type": "integer"
+        },
+        "requestBody": {
+            "required": [
+                "amount",
+                "date",
+                "type",
+                "checkAccount"
+            ],
+            "properties": {
+                "amount": {
+                    "description": "Amount which should be booked. Can also be a partial amount.",
+                    "type": "number"
+                },
+                "date": {
+                    "description": "The booking date. Most likely the current date.",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "Define a type for the booking.<br>\r\n    The following type abbreviations are available (abbreviation <-> meaning).<br>\r\n    <ul>\r\n    <li>N <-> Normal booking / partial booking</li>\r\n    <li>CB <-> Reduced amount due to discount (skonto)</li>\r\n    <li>CF <-> Reduced/Higher amount due to currency fluctuations</li>\r\n    <li>O <-> Reduced/Higher amount due to other reasons</li>\r\n    <li>OF <-> Higher amount due to reminder charges</li>\r\n    <li>MTC <-> Reduced amount due to the monetary traffic costs</li>\r\n    </ul>",
+                    "type": "string",
+                    "enum": [
+                        "N",
+                        "CB",
+                        "CF",
+                        "O",
+                        "OF",
+                        "MTC"
+                    ]
+                },
+                "checkAccount": {
+                    "description": "The check account on which should be booked.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "The id of the check account on which should be booked.",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Internal object name which is 'CheckAccount'.",
+                            "type": "string",
+                            "example": "CheckAccount"
+                        }
+                    },
+                    "type": "object"
+                },
+                "checkAccountTransaction": {
+                    "description": "The check account transaction on which should be booked.<br>\r\n    The transaction will be linked to the voucher.",
+                    "required": [
+                        "id",
+                        "objectName"
+                    ],
+                    "properties": {
+                        "id": {
+                            "description": "The id of the check account transaction on which should be booked.",
+                            "type": "integer"
+                        },
+                        "objectName": {
+                            "description": "Internal object name which is 'CheckAccountTransaction'.",
+                            "type": "string",
+                            "example": "CheckAccountTransaction"
+                        }
+                    },
+                    "type": "object"
+                },
+                "createFeed": {
+                    "description": "Determines if a feed is created for the booking process.",
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        }
+    }
+}
