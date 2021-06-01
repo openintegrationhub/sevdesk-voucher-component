@@ -2,7 +2,7 @@
     "title": "sevDesk Receipt API",
     "description": "\r\n# General information\r\nWelcome to our Receipt API!<br>\r\nYou can use it to manage receipts (vouchers) in your sevDesk account.\r\n\r\n# Cross-Origin Resource Sharing\r\nThis API features Cross-Origin Resource Sharing (CORS).<br>\r\nIt enables cross-domain communication from the browser.<br>\r\nAll responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\r\n\r\n# Embedding resources\r\nWhen retrieving resources by using this API, you might encounter nested resources in the resources you requested.<br>\r\nFor example, an invoice always contains a contact, of which you can see the ID and the object name.<br>\r\nThis API gives you the possibility to embed these resources completely into the resources you originally requested.<br>\r\nTaking our invoice example, this would mean, that you would not only see the ID and object name of a contact, but rather the complete contact resource.\r\n\r\nTo embed resources, all you need to do is to add the query parameter 'embed' to your GET request.<br>\r\nAs values, you can provide the name of the nested resource.<br>\r\nMultiple nested resources are also possible by providing multiple names, separated by a comma.\r\n",
     "docsUrl": "https://5677.extern.sevdesk.dev/apiOverview/index.html#/",
-    "url": "https://my.sevdesk.de/api/v1",
+    "url": "https://raw.githubusercontent.com/openintegrationhub/sevdesk-voucher-component/master/lib/spec.json",
     "envVars": {},
     "credentials": {
         "fields": {
@@ -28,11 +28,35 @@
         }
     },
     "triggers": {
-        "startFlow": {
-            "main": "./lib/triggers/startFlow.js",
-            "type": "polling",
-            "title": "Start Flow",
-            "fields": {}
+        "getVouchers": {
+            "main": "./lib/triggers/getVouchers.js",
+            "title": "Retrieve vouchers",
+            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n    for a complete list please check out <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#filtering'>this</a> list",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVouchers.in.json",
+                "out": "./lib/schemas/getVouchers.out.json"
+            }
+        },
+        "getVoucherPositions": {
+            "main": "./lib/triggers/getVoucherPositions.js",
+            "title": "Retrieve voucher positions",
+            "description": "Retrieve all voucher positions depending on the filters defined in the query.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/getVoucherPositions.in.json",
+                "out": "./lib/schemas/getVoucherPositions.out.json"
+            }
         }
     },
     "actions": {
@@ -64,21 +88,6 @@
             "metadata": {
                 "in": "./lib/schemas/voucherUploadFile.in.json",
                 "out": "./lib/schemas/voucherUploadFile.out.json"
-            }
-        },
-        "getVouchers": {
-            "main": "./lib/actions/getVouchers.js",
-            "title": "Retrieve vouchers",
-            "description": "There are a multitude of parameter which can be used to filter. A few of them are attached but\r\n    for a complete list please check out <a href='https://5677.extern.sevdesk.dev/apiOverview/index.html#/doc-vouchers#filtering'>this</a> list",
-            "fields": {
-                "verbose": {
-                    "viewClass": "CheckBoxView",
-                    "label": "Debug this step (log more data)"
-                }
-            },
-            "metadata": {
-                "in": "./lib/schemas/getVouchers.in.json",
-                "out": "./lib/schemas/getVouchers.out.json"
             }
         },
         "createVoucher": {
@@ -154,21 +163,6 @@
             "metadata": {
                 "in": "./lib/schemas/bookVoucher.in.json",
                 "out": "./lib/schemas/bookVoucher.out.json"
-            }
-        },
-        "getVoucherPositions": {
-            "main": "./lib/actions/getVoucherPositions.js",
-            "title": "Retrieve voucher positions",
-            "description": "Retrieve all voucher positions depending on the filters defined in the query.",
-            "fields": {
-                "verbose": {
-                    "viewClass": "CheckBoxView",
-                    "label": "Debug this step (log more data)"
-                }
-            },
-            "metadata": {
-                "in": "./lib/schemas/getVoucherPositions.in.json",
-                "out": "./lib/schemas/getVoucherPositions.out.json"
             }
         }
     }
